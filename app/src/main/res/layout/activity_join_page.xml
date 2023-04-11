@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/bory2"
+    android:id="@+id/sv_root"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/backgracolor">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/base_shape"
+            android:backgroundTint="@color/yellow7"
+            android:fontFamily="@font/font_amsterdam"
+            android:gravity="center"
+            android:text="시세시세"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="로그인 후 더 많은 서비스를 이용해 보세요."
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text1" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:text="아이디"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/id"
+            app:layout_constraintBottom_toTopOf="@id/id"/>
+
+        <EditText
+            android:id="@+id/id"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text1"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:text="비밀번호"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/password"
+            app:layout_constraintBottom_toTopOf="@id/password"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/id"
+            android:textColor="@color/black"
+            android:password="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="비밀번호 재확인"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/password2"
+            app:layout_constraintBottom_toTopOf="@id/password2"/>
+
+        <EditText
+            android:id="@+id/password2"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password"
+            android:textColor="@color/black"
+            android:password="true" />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:text="닉네임"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/name"
+            app:layout_constraintBottom_toTopOf="@id/name"/>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password2"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:text="이 름"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/name2"
+            app:layout_constraintBottom_toTopOf="@id/name2"/>
+
+        <EditText
+            android:id="@+id/name2"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:text="생년원일"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/year"
+            app:layout_constraintBottom_toTopOf="@id/year"/>
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name2"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:text="이메일"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/email"
+            app:layout_constraintBottom_toTopOf="@id/email"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/year"
+            android:textColor="@color/black" />
+
+
+        <Button
+            android:id="@+id/backlogin"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_color_yellow"
+            android:backgroundTint="@color/yellow4"
+            android:fontFamily="@font/font_amsterdam"
+            android:padding="5dp"
+            android:text="이전"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/joinbutton"
+            app:layout_constraintTop_toBottomOf="@id/email" />
+
+        <Button
+            android:id="@+id/joinbutton"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_color_yellow"
+            android:backgroundTint="@color/yellow4"
+            android:fontFamily="@font/font_amsterdam"
+            android:padding="5dp"
+            android:text="회원 가입"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backlogin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

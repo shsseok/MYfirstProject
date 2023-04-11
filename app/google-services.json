@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "227940153733",
+    "firebase_url": "https://odh-project-1-default-rtdb.firebaseio.com",
+    "project_id": "odh-project-1",
+    "storage_bucket": "odh-project-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227940153733:android:041db2450735e2c356acec",
+        "android_client_info": {
+          "package_name": "com.example.odh_project_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227940153733-pup0l26pt2ncpe2ab0ln3tofk775ip9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7ApefVgaIi5sayE7NFNdtvCdDvSgV1fI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227940153733-pup0l26pt2ncpe2ab0ln3tofk775ip9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
