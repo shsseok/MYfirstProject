@@ -28,21 +28,20 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         productList = mutableListOf<Product>()
+        lateinit var query:String
         val searchbinding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(searchbinding.root)
-        searchbinding
+
         val retrofit = Retrofit.Builder().baseUrl("https://openapi.naver.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recyclerView = searchbinding.searchproduct
         adapter = ProductAdapter2(productList, this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
         adapter.setOnItemClickListener(object : ProductAdapter2.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Log.d("MainActivity", "Item clicked at position $position")
-                // ProductDetailsActivity로 이동할 인텐트를 생성합니다.
                 val intent = Intent(this@SearchActivity, MainInfoActivity::class.java)
                 val product = productList[position]
+                intent.putExtra("query",query)
                 intent.putExtra("image_url", product.productImageUrl)
                 intent.putExtra("product_name", product.productName)
                 intent.putExtra("price", product.productPrice)
@@ -50,8 +49,11 @@ class SearchActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+
         searchbinding.searchImage.setOnClickListener {
-            val query = searchbinding.searchBar.text.toString()
+           query = searchbinding.searchBar.text.toString()
             if (query.isNotEmpty()) {
                 searchProducts(query)
             }
@@ -78,7 +80,7 @@ class SearchActivity : AppCompatActivity() {
                         productList.add(
                             Product(
                                 rank = productList.size + 1,
-                                productName = item.title,
+                                productName = item.title.let { it.removeHtmlTags() },
                                 productPrice = item.lprice,
                                 productImageUrl = item.image,
                                 productLink = item.link

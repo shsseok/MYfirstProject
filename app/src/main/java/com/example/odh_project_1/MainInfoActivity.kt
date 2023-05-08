@@ -66,7 +66,7 @@ class MainInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "링크를 열 수 있는 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-
+    intent
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

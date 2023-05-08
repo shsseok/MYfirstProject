@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
@@ -34,6 +35,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.odh_project_1.moreNewsItem
 import moreTrendItem
+import com.example.odh_project_1.removeHtmlTags
 
 data class SearchRequestBody(
     val startDate: String,
@@ -202,25 +204,25 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val searchProductsResponse = response.body()
+
                     searchProductsResponse?.items?.forEachIndexed { index, item ->
+
                         if (index < 5) {
                             // MainActivity에서 상품 5개 보여주기
                             productList.add(
                                 Product(
                                     rank = productList.size + 1,
-                                    productName = item.title,
+                                    productName = item.title.let { it.removeHtmlTags() },
                                     productPrice = item.lprice,
                                     productImageUrl = item.image,
                                     productLink = item.link
                                 )
                             )
                         } else {
-
-
                             producttrendList.add(
                                 moreTrendItem(
                                     rank = productList.size + 1,
-                                    productName = item.title,
+                                    productName = item.title.let { it.removeHtmlTags() },
                                     productPrice = item.lprice,
                                     productImageUrl = item.image,
                                     productLink = item.link
@@ -232,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
                     // 첫 번째 상품 이름 추출 및 뉴스 검색 실행
                     if (productList.isNotEmpty()) {
-                        val firstProductName = "쇼핑"
+                        val firstProductName =  "롯데칠성음료 칠성사이다 190ml"
                         Log.d("product1", firstProductName)
                         // NaverShoppingApi를 사용하여 뉴스 검색
                         naverShoppingApi.searchNews(
