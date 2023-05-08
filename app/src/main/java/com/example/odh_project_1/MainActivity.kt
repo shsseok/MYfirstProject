@@ -187,8 +187,8 @@ class MainActivity : AppCompatActivity() {
         })
         val retrofit = Retrofit.Builder().baseUrl("https://openapi.naver.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
-        val popularKeywords = "바나나"
-        // NaverShoppingApi를 사용하여 상품 검색
+        val popularKeywords = "사이다"
+
         val naverShoppingApi = retrofit.create(NaverShoppingApi::class.java)
         naverShoppingApi.searchProducts(
             clientId = "Q3hRbuSrFXi45ebILEqx",

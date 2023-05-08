@@ -12,9 +12,10 @@ import com.example.odh_project_1.databinding.ActivityMainInfoBinding
 
 class MainInfoActivity : AppCompatActivity() {
     private lateinit var maininfobinding: ActivityMainInfoBinding
-
+    private lateinit var barcodeScanner: BarcodeScanner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         maininfobinding = ActivityMainInfoBinding.inflate(layoutInflater)
         setContentView(maininfobinding.root)
 
@@ -25,6 +26,11 @@ class MainInfoActivity : AppCompatActivity() {
         maininfobinding.searchImage.setOnClickListener {
             val maininfointent2 = Intent(this@MainInfoActivity, SearchActivity::class.java)
             startActivity(maininfointent2)
+        }
+        barcodeScanner = BarcodeScanner(this)
+
+        maininfobinding.cameraImage.setOnClickListener {
+            barcodeScanner.startScan()
         }
 
         val imageUrl = intent.getStringExtra("image_url")
@@ -61,5 +67,16 @@ class MainInfoActivity : AppCompatActivity() {
             }
         }
 
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val barcodeResult = barcodeScanner.handleActivityResult(requestCode, resultCode, data)
+
+        if (barcodeResult != null) {
+            Toast.makeText(this, "Barcode: $barcodeResult", Toast.LENGTH_LONG).show()
+            // 여기서 바코드 결과를 사용해 네이버 검색 API로 상품 검색을 수행할 수 있습니다.
+        } else {
+            Toast.makeText(this, "No barcode detected", Toast.LENGTH_SHORT).show()
+        }
     }
 }
