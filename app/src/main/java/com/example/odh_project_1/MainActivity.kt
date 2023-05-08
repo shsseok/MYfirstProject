@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                 // 로그아웃 상태인 경우
                 val intent1 = Intent(this@MainActivity, LoginPage1::class.java)
                 startActivity(intent1)
+
             }
         }
         mainbinding.searchImage.setOnClickListener {
