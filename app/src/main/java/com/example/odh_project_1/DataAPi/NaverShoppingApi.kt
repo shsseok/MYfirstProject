@@ -1,5 +1,7 @@
-package com.example.odh_project_1
+package com.example.odh_project_1.DataAPi
 
+import com.example.odh_project_1.DataClass.SearchNewsResponse
+import com.example.odh_project_1.DataClass.SearchProductsResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,13 +24,6 @@ interface NaverShoppingApi {
         @Query("query") query: String,
         @Query("display") display: Int = 10
     ): Call<SearchNewsResponse>
-    @POST("v1/datalab/shopping/category/keywords")
-    fun searchTrends(
-        @Header("X-Naver-Client-Id") clientId: String,
-        @Header("X-Naver-Client-Secret") clientSecret: String,
-        @Body requestBody: SearchRequestBody
-    ): Call<SearchTrendsResponse>
-
     companion object {
         private const val BASE_URL = "https://openapi.naver.com/"
 

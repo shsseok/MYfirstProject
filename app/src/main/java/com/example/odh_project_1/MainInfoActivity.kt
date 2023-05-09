@@ -18,7 +18,6 @@ class MainInfoActivity : AppCompatActivity() {
 
         maininfobinding = ActivityMainInfoBinding.inflate(layoutInflater)
         setContentView(maininfobinding.root)
-
         maininfobinding.loginbutton.setOnClickListener {
             val maininfointent1 = Intent(this@MainInfoActivity, LoginPage1::class.java)
             startActivity(maininfointent1)
@@ -28,7 +27,6 @@ class MainInfoActivity : AppCompatActivity() {
             startActivity(maininfointent2)
         }
         barcodeScanner = BarcodeScanner(this)
-
         maininfobinding.cameraImage.setOnClickListener {
             barcodeScanner.startScan()
         }
@@ -36,21 +34,16 @@ class MainInfoActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra("image_url")
         val productName = intent.getStringExtra("product_name")
         val price = intent.getStringExtra("price")
-
         val searchInfo: ImageView = findViewById(R.id.search_info)
         val info: TextView = findViewById(R.id.info)
         val priceView: TextView = findViewById(R.id.price)
-
         Glide.with(this)
             .load(imageUrl)
             .into(searchInfo)
-
         info.text = "상품명: $productName"
         priceView.text = "가격: $price"
 
         val site: TextView = findViewById(R.id.site)
-
-// ProductDetailsActivity에서 상품 링크를 가져옵니다.
         val productLink = intent.getStringExtra("product_link")
 
 // site TextView에 클릭 리스너를 설정합니다.
@@ -66,7 +59,7 @@ class MainInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "링크를 열 수 있는 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-    intent
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

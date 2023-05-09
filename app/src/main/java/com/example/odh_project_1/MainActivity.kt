@@ -1,18 +1,11 @@
 package com.example.odh_project_1
 
-import kotlinx.parcelize.Parcelize
 
-
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
@@ -25,7 +18,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
+import com.example.odh_project_1.Adapters.ProductAdapter
+import com.example.odh_project_1.DataAPi.NaverShoppingApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,68 +27,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.odh_project_1.moreNewsItem
 import moreTrendItem
-import com.example.odh_project_1.removeHtmlTags
+import com.example.odh_project_1.DataClass.Product
+import com.example.odh_project_1.DataClass.SearchNewsResponse
+import com.example.odh_project_1.DataClass.SearchProductsResponse
 
-data class SearchRequestBody(
-    val startDate: String,
-    val endDate: String,
-    val timeUnit: String,
-    val category: String, // 추가된 필드
-    val keywordGroups: List<KeywordGroup>
-) {
-    data class KeywordGroup(
-        val groupName: String, val keywords: List<String>
-    )
-}
-
-data class Product(
-    val rank: Int,
-    val productName: String,
-    val productPrice: String,
-    val productImageUrl: String,
-    val productLink: String
-)
-
-data class SearchTrendsResponse(
-    val startDate: String, val endDate: String, val timeUnit: String, val results: List<Result>
-) {
-    data class Result(
-        val title: String, val keywords: List<String>, val data: List<Data>
-    ) {
-        data class Data(
-            val period: String, val ratio: Float
-        )
-    }
-}
-
-data class SearchNewsResponse(
-    val lastBuildDate: String,
-    val total: Int,
-    val start: Int,
-    val display: Int,
-    val items: List<NewsItem>
-)
-
-data class NewsItem(
-    val title: String, val link: String
-)
-
-data class SearchProductsResponse(
-    val items: List<ProductItem>
-)
-
-data class ProductItem(
-    val title: String,
-    val link: String,
-    val image: String,
-    val lprice: String,
-    val hprice: String,
-    val mallName: String,
-    val productId: String,
-    val productType: String
-)
 
 data class User(
     val name: String? = null
@@ -177,7 +114,8 @@ class MainActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object : ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.d(
-                    "MainActivity", "Item clicked at position $position")
+                    "MainActivity", "Item clicked at position $position"
+                )
                 // ProductDetailsActivity로 이동할 인텐트를 생성합니다.
                 val intent = Intent(this@MainActivity, MainInfoActivity::class.java)
                 val product = productList[position]
@@ -188,11 +126,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        val retrofit = Retrofit.Builder().baseUrl("https://openapi.naver.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
         val popularKeywords = "사이다"
-
-        val naverShoppingApi = retrofit.create(NaverShoppingApi::class.java)
+        val naverShoppingApi = NaverShoppingApi.create()
         naverShoppingApi.searchProducts(
             clientId = "Q3hRbuSrFXi45ebILEqx",
             clientSecret = "Wr4TaArtQC",
@@ -230,11 +165,9 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
-                    // 상품 데이터 추출 및 productList에 추가
 
-                    // 첫 번째 상품 이름 추출 및 뉴스 검색 실행
                     if (productList.isNotEmpty()) {
-                        val firstProductName =  "롯데칠성음료 칠성사이다 190ml"
+                        val firstProductName = "롯데칠성음료 칠성사이다 190ml"
                         Log.d("product1", firstProductName)
                         // NaverShoppingApi를 사용하여 뉴스 검색
                         naverShoppingApi.searchNews(
@@ -326,7 +259,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onStart() {
         super.onStart()
         mFirebaseAuth.addAuthStateListener(mAuthStateListener)
@@ -338,51 +270,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class ProductAdapter(
-    private val productList: List<Product>, private val context: Context
-) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-    private var onItemClickListener: OnItemClickListener? = null
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        onItemClickListener = listener
-    }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val rank: TextView = view.findViewById(R.id.rank)
-        val productName: TextView = view.findViewById(R.id.product_name)
-        val productImage: ImageView = view.findViewById(R.id.product_image)
-
-        init {
-            view.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClickListener?.onItemClick(position)
-            }
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trend, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount(): Int {
-        return productList.size
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val product = productList[position]
-
-        holder.rank.text = product.rank.toString()
-        holder.productName.text = product.productName
-
-        // Glide를 사용하여 이미지 로드
-        Glide.with(context).load(product.productImageUrl).into(holder.productImage)
-    }
-
-}

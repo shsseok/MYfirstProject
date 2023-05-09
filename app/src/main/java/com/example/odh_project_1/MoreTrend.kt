@@ -38,9 +38,8 @@ class MoreTrend : AppCompatActivity() {
             val morenewsintent2 = Intent(this@MoreTrend, SearchActivity::class.java)
             startActivity(morenewsintent2)
         }
-        val productList: ArrayList<moreTrendItem> = intent.getParcelableArrayListExtra("moreItems") ?: arrayListOf()
-
-
+        val productList: ArrayList<moreTrendItem> =
+            intent.getParcelableArrayListExtra("moreItems") ?: arrayListOf()
         Log.d("MoreTrend1", "Product List Size: ${productList.size}")
         val adapter = productMoreAdapter(productList, this@MoreTrend)
         val recyclerView = findViewById<RecyclerView>(R.id.moretrend)
@@ -67,10 +66,9 @@ class MoreTrend : AppCompatActivity() {
             fun onItemClick(position: Int)
         }
 
-        // 클릭 리스너를 초기화합니다.
         private var onItemClickListener: OnItemClickListener? = null
 
-        // 클릭 리스너를 설정하는 메서드를 추가합니다.
+
         fun setOnItemClickListener(listener: OnItemClickListener) {
             onItemClickListener = listener
         }
@@ -93,22 +91,24 @@ class MoreTrend : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trend, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_trend, parent, false)
             return ViewHolder(view)
         }
 
         override fun getItemCount(): Int {
-            return  productmoreList.size
+            return productmoreList.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val product =  productmoreList[position]
+            val product = productmoreList[position]
 
             holder.rank.text = product.rank.toString()
             holder.productName.text = product.productName
 
-            // Glide를 사용하여 이미지 로드
+
             Glide.with(context).load(product.productImageUrl).into(holder.productImage)
         }
 
-    }}
+    }
+}

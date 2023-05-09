@@ -14,6 +14,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.odh_project_1.Adapters.ProductAdapter
+import com.example.odh_project_1.DataAPi.NaverShoppingApi
+import com.example.odh_project_1.DataClass.Product
+import com.example.odh_project_1.DataClass.SearchProductsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +27,7 @@ import com.example.odh_project_1.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
     lateinit var productList: MutableList<Product>
-    lateinit var adapter: ProductAdapter2
+    lateinit var adapter:  ProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +39,9 @@ class SearchActivity : AppCompatActivity() {
         val retrofit = Retrofit.Builder().baseUrl("https://openapi.naver.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recyclerView = searchbinding.searchproduct
-        adapter = ProductAdapter2(productList, this)
+        adapter = ProductAdapter(productList, this)
         recyclerView.adapter = adapter
-        adapter.setOnItemClickListener(object : ProductAdapter2.OnItemClickListener {
+        adapter.setOnItemClickListener(object :  ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@SearchActivity, MainInfoActivity::class.java)
                 val product = productList[position]
@@ -61,9 +65,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchProducts(query: String) {
-        val retrofit = Retrofit.Builder().baseUrl("https://openapi.naver.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val naverShoppingApi = retrofit.create(NaverShoppingApi::class.java)
+        val naverShoppingApi = NaverShoppingApi.create()
         naverShoppingApi.searchProducts(
             clientId = "Q3hRbuSrFXi45ebILEqx",
             clientSecret = "Wr4TaArtQC",
@@ -95,60 +97,9 @@ class SearchActivity : AppCompatActivity() {
                 Log.e("Error", "API 호출 실패: $t")
             }
         })
-    }
+    }}
 
-    class ProductAdapter2(
-        private val productList: List<Product>, private val context: Context
-    ) : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
-        interface OnItemClickListener {
-            fun onItemClick(position: Int)
-        }
 
-        private var onItemClickListener: OnItemClickListener? = null
-        fun setOnItemClickListener(listener: OnItemClickListener) {
-            onItemClickListener = listener
-        }
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-            val rank: TextView = view.findViewById(R.id.rank)
-            val productName: TextView = view.findViewById(R.id.product_name)
-            val productImage: ImageView = view.findViewById(R.id.product_image)
-
-            init {
-                view.setOnClickListener(this)
-            }
-
-            override fun onClick(v: View?) {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    onItemClickListener?.onItemClick(position)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_trend, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun getItemCount(): Int {
-            return productList.size
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val product = productList[position]
-
-            holder.rank.text = product.rank.toString()
-            holder.productName.text = product.productName
-
-            // Glide를 사용하여 이미지 로드
-            Glide.with(context).load(product.productImageUrl).into(holder.productImage)
-        }
-
-    }
-
-}
 
 
 
