@@ -12,7 +12,7 @@ interface NaverShoppingApi {
     fun searchProducts(
         @Header("X-Naver-Client-Id") clientId: String,
         @Header("X-Naver-Client-Secret") clientSecret: String,
-        @Header("display") display: Int,
+        @Query("display") display: Int,
         @Query("query") query: String,
         @Query("start") start: Int =1,
         @Query("sort") sort: String = "sim"
@@ -22,7 +22,7 @@ interface NaverShoppingApi {
         @Header("X-Naver-Client-Id") clientId: String,
         @Header("X-Naver-Client-Secret") clientSecret: String,
         @Query("query") query: String,
-        @Query("display") display: Int = 10
+        @Query("display") display: Int
     ): Call<SearchNewsResponse>
     companion object {
         private const val BASE_URL = "https://openapi.naver.com/"

@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             clientId = "Q3hRbuSrFXi45ebILEqx",
             clientSecret = "Wr4TaArtQC",
             query = popularKeywords,
-            display = 15
+            display = 30
         ).enqueue(object : Callback<SearchProductsResponse> {
             override fun onResponse(
                 call: Call<SearchProductsResponse>, response: Response<SearchProductsResponse>
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                     val searchProductsResponse = response.body()
 
                     searchProductsResponse?.items?.forEachIndexed { index, item ->
-
+                        Log.d("product123","${item.title}")
                         if (index < 5) {
                             // MainActivity에서 상품 5개 보여주기
                             productList.add(
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                             clientId = "Q3hRbuSrFXi45ebILEqx",
                             clientSecret = "Wr4TaArtQC",
                             query = firstProductName,
-                            display = 10
+                            display = 30
                         ).enqueue(object : Callback<SearchNewsResponse> {
                             override fun onResponse(
                                 call: Call<SearchNewsResponse>,

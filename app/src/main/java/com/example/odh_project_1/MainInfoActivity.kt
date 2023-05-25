@@ -1,6 +1,7 @@
 package com.example.odh_project_1
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,23 +11,35 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
+import com.example.odh_project_1.Chart.ChartDrawer
+import com.example.odh_project_1.DataAPi.NaverDataLabApi
 import com.example.odh_project_1.DataAPi.NaverShoppingApi
 import com.example.odh_project_1.DataClass.SearchNewsResponse
+import com.example.odh_project_1.DataClass.TrendRequestBody
+import com.example.odh_project_1.DataClass.TrendResponse
 import com.example.odh_project_1.databinding.ActivityMainInfoBinding
+import com.github.mikephil.charting.charts.LineChart
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainInfoActivity : AppCompatActivity() {
     private lateinit var maininfobinding: ActivityMainInfoBinding
     private lateinit var barcodeScanner: BarcodeScanner
     private var newsList: ArrayList<moreNewsItem> = ArrayList()
+    private val calendar: Calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val query = intent.getStringExtra("query")
 
         if (query != null) {
             searchNews(query)
+            searchTrend(query)
         }
 
 
@@ -143,6 +156,56 @@ class MainInfoActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<SearchNewsResponse>, t: Throwable) {
                 Log.e("Errorrr", "API call failed: $t")
+            }
+        })
+    }
+    private fun searchTrend(query: String) {
+        val naverDataLabApi = NaverDataLabApi.create()
+        val now = LocalDate.now()
+        val oneMonthAgoLastDay = now.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth())
+        val endDate = oneMonthAgoLastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+// 1년 전의 마지막 날
+        val oneYearAgo = now.minusYears(1)
+        val startDate = oneYearAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+        Log.d("asdf","Start Date: ${startDate} End Date: ${endDate}")
+        // Body 생성
+        val body = TrendRequestBody(
+            startDate = startDate,
+            endDate = endDate,
+            timeUnit = "month",
+            keywordGroups = listOf(
+                TrendRequestBody.KeywordGroup(
+                    groupName = query,
+                    keywords = listOf(query)
+                )
+            )
+        )
+
+        // API 호출
+        naverDataLabApi.searchTrend(
+            clientId = "IPDccg74TSGRlT8uZmMm",
+            clientSecret = "xWo3JnjslS",
+            body = body
+        ).enqueue(object : Callback<TrendResponse> {
+            override fun onResponse(call: Call<TrendResponse>, response: Response<TrendResponse>) {
+                if (response.isSuccessful) {
+                    val trendResponse = response.body()
+                    Log.d("Trend", trendResponse.toString())
+                    // 데이터를 저장할 리스트를 생성합니다.
+                    val lineChart = findViewById<LineChart>(R.id.graphinfo)
+                    val chart=ChartDrawer()
+                    chart.drawLineChart(lineChart, trendResponse!!,query)
+
+                } else {
+                    Log.e("Error3", "API call failed: ${response.errorBody()?.string()}")
+                }
+            }
+
+
+            override fun onFailure(call: Call<TrendResponse>, t: Throwable) {
+                Log.e("Error4", "API call failed: $t")
             }
         })
     }

@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" } //추가한거
     }
 }
 rootProject.name = "ODH_project_1"
