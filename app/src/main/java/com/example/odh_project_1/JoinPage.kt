@@ -146,9 +146,6 @@ class JoinPage : AppCompatActivity() {
             Toast.makeText(this, "비밀번호와 비밀번호 확인이 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
             return false
         }
-
-        // 기타 입력 값 검증 로직을 추가할 수 있습니다.
-
         return true
     }
     override fun onDestroy() {

@@ -77,22 +77,7 @@ class MainActivity : AppCompatActivity() {
         newsInfo1 = mainbinding.newsinfo1
         mAuth = FirebaseAuth.getInstance()
         welcomeText = mainbinding.welcomeText
-        mainbinding.loginbutton.setOnClickListener {
-            val user = mAuth.currentUser
-            if (user != null) {
-                // 로그인 상태인 경우
-                AlertDialog.Builder(this).setMessage("로그아웃 하시겠습니까?")
-                    .setPositiveButton("예") { _, _ ->
-                        mAuth.signOut()
-                        mainbinding.loginbutton.text = "로그인"
-                    }.setNegativeButton("아니오", null).show()
-            } else {
-                // 로그아웃 상태인 경우
-                val intent1 = Intent(this@MainActivity, LoginPage1::class.java)
-                startActivity(intent1)
 
-            }
-        }
         mainbinding.searchImage.setOnClickListener {
             val intent2 = Intent(this@MainActivity, SearchActivity::class.java)
             startActivity(intent2)
@@ -107,6 +92,23 @@ class MainActivity : AppCompatActivity() {
             intent4.putParcelableArrayListExtra("news_list", newsList)
             startActivity(intent4)
         }
+        mainbinding.communityButton.setOnClickListener {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+
+            if (currentUser == null) {
+                // 사용자가 로그인되지 않았습니다.
+                Toast.makeText(this, "로그인 후 이용해 주세요.", Toast.LENGTH_SHORT).show()
+
+                // 로그인 화면으로 이동하는 코드를 여기에 작성합니다.
+                val loginIntent = Intent(this@MainActivity, LoginPage1::class.java)
+                startActivity(loginIntent)
+            } else {
+                // 사용자가 로그인되었습니다. 커뮤니티로 이동합니다.
+                val intent5 = Intent(this@MainActivity, Community::class.java)
+                startActivity(intent5)
+            }
+        }
+
         val adapter = ProductAdapter(productList, this)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = adapter
@@ -242,22 +244,28 @@ class MainActivity : AppCompatActivity() {
             if (user != null) {
                 // 로그인 상태인 경우
                 mainbinding.loginbutton.text = "로그아웃"
-
                 welcomeText.visibility = View.VISIBLE
-                mainbinding.loginbutton.setOnClickListener {
-                    mFirebaseAuth.signOut()
-                }
                 fetchUserName(user.uid)
+
+                mainbinding.loginbutton.setOnClickListener {
+                    AlertDialog.Builder(this).setMessage("로그아웃 하시겠습니까?")
+                        .setPositiveButton("예") { _, _ ->
+                            mAuth.signOut()
+                            mainbinding.loginbutton.text = "로그인"
+                        }.setNegativeButton("아니오", null).show()
+                }
             } else {
                 // 로그아웃 상태인 경우
                 mainbinding.loginbutton.text = "로그인"
                 welcomeText.visibility = View.GONE
+
                 mainbinding.loginbutton.setOnClickListener {
                     val intent1 = Intent(this@MainActivity, LoginPage1::class.java)
                     startActivity(intent1)
                 }
             }
         }
+
     }
     override fun onStart() {
         super.onStart()
